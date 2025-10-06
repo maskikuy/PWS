@@ -92,3 +92,116 @@
             flex-grow: 1;
         }
 
+        /* PENGKHUSUSAN DATA PENTING */
+        .highlight {
+            font-size: 1.2em;
+            color: #dc3545; /* Warna merah untuk suhu */
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div class="header">DASHBOARD CUACA REAL-TIME 🌤️</div>
+
+        <div class="search-area">
+            <input type="text" id="location-input" placeholder="Masukkan Kota, Kabupaten, atau Kode Pos" value="Yogyakarta">
+            <button id="get-button">CARI</button>
+        </div>
+        
+        <div id="tampilan">
+            <div class="data-row">Memuat data...</div>
+        </div>
+    </div>
+    
+    <script>
+        const API_KEY = "10b97284bb6c42e5bdf11006250610";
+        const BASE_URL = "https://api.weatherapi.com/v1/current.json";
+
+        function fetchWeatherData(city) {
+            const displayArea = $("#tampilan");
+            displayArea.html('<div class="data-row" style="justify-content: center;">Memuat data... ⏳</div>');
+            
+            const fullUrl = `${BASE_URL}?key=${API_KEY}&q=${city}&aqi=no`;
+
+            $.ajax({
+                url: fullUrl,
+                method: "GET",
+                success: function(data) {
+                    let negara = data.location.country;
+                    let provinsi = data.location.region;
+                    let kecamatan = data.location.name;
+                    let suhu = data.current.temp_c;
+                    let kelembaban = data.current.humidity;
+                    let lat = data.location.lat;
+                    let lon = data.location.lon;
+
+                    displayArea.html(`
+                        <div class="data-row">
+                            <span class="label">Negara:</span>
+                            <span class="value">${negara}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Provinsi:</span>
+                            <span class="value">${provinsi || '-'}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Kota/Kecamatan:</span>
+                            <span class="value">${kecamatan || '-'}</span>
+                        </div>
+                        <div style="height: 15px;"></div>
+                        
+                        <div class="data-row">
+                            <span class="label">Suhu (°C):</span>
+                            <span class="value highlight">${suhu}°C</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Kelembaban:</span>
+                            <span class="value">${kelembaban}%</span>
+                        </div>
+                        <div style="height: 15px;"></div>
+
+                        <div class="data-row">
+                            <span class="label">Latitude:</span>
+                            <span class="value">${lat}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Longitude:</span>
+                            <span class="value">${lon}</span>
+                        </div>
+                    `);
+                },
+                error: function(xhr) {
+                    let errorMessage = "Lokasi tidak ditemukan. Coba gunakan Kota, Kabupaten, atau Kode Pos.";
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = `Error: ${xhr.responseJSON.error.message}`;
+                    }
+                    displayArea.html(`<div class="data-row" style="color: red; text-align: center;">${errorMessage}</div>`);
+                }
+            });
+        }
+
+        // Event Listener untuk Tombol GET
+        $("#get-button").on("click", function() {
+            const city = $("#location-input").val().trim();
+            if (city) {
+                fetchWeatherData(city);
+            } else {
+                alert("Mohon masukkan lokasi!");
+            }
+        });
+
+        // Event Listener untuk tombol Enter di input field
+        $("#location-input").on("keypress", function(e) {
+            if (e.which === 13) {
+                $("#get-button").click();
+            }
+        });
+        
+        // Panggil fungsi sekali saat halaman dimuat
+        $(document).ready(function() {
+             fetchWeatherData($("#location-input").val());
+        });
+    </script>
+</body>
+</html>
