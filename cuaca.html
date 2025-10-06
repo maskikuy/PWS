@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFO CUACA Detail Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        /* CSS DENGAN DESAIN MODERN */
+        body {
+            font-family: 'Roboto', sans-serif; /* Mengganti font */
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Mulai dari atas */
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+        #main-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px; /* Sudut membulat */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+            max-width: 450px; /* Lebar lebih ringkas */
+            width: 90%;
+            transition: transform 0.3s;
+        }
+        #main-container:hover {
+            transform: translateY(-5px); /* Efek melayang saat hover */
+        }
+        .header {
+            font-size: 1.8em; /* Ukuran lebih besar */
+            font-weight: 700;
+            color: #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #007bff; /* Garis bawah biru cerah */
+            text-align: center;
+        }
+        
+        /* INPUT DAN TOMBOL */
+        .search-area {
+            display: flex;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        #location-input {
+            padding: 10px 15px;
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1em;
+            outline: none;
+        }
+        
